@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>For My Valentine ❤️</title>
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        height: 100vh;
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .container {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 40px 30px;
+        border-radius: 20px;
+        width: 90%;
+        max-width: 480px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        position: relative;
+      }
+
+      /* Top image / GIF */
+      .top-image {
+        width: 180px;
+        display: block;
+        margin: 0 auto 15px;
+        border-radius: 12px;
+      }
+
+      h1 {
+        font-family: "Dancing Script", cursive;
+        font-size: 42px;
+        color: #ff4d6d;
+        margin: 10px 0;
+      }
+
+      p {
+        font-size: 16px;
+        margin-bottom: 30px;
+      }
+
+      .buttons {
+        position: relative;
+        height: 220px;
+      }
+
+      button {
+        padding: 15px 30px;
+        font-size: 18px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+
+      #yes {
+        background-color: #ff4d6d;
+        color: white;
+      }
+
+      #yes:hover {
+        transform: scale(1.1);
+      }
+
+      #no {
+        background-color: #888;
+        color: white;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .final {
+        font-family: "Dancing Script", cursive;
+        font-size: 38px;
+        color: #ff4d6d;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container" id="card">
+      <!-- IMAGE / GIF ABOVE TEXT -->
+      <img src="assets/love.png" alt="Love" class="top-image" />
+
+      <h1>Hey Love ❤️</h1>
+      <p>MoMoS Will You Be My Valentine...? ❤️</p>
+
+      <div class="buttons">
+        <button id="yes">YES 😍</button>
+        <button id="no">NO 🙄</button>
+      </div>
+    </div>
+
+    <script>
+      const noBtn = document.getElementById("no");
+      const yesBtn = document.getElementById("yes");
+      const buttons = document.querySelector(".buttons");
+      const card = document.getElementById("card");
+
+      const noTexts = [
+        "No 😐",
+        "Nice try 😏",
+        "Not allowed 😤",
+        "Wrong choice 😂",
+        "Try again 🤨",
+      ];
+
+      const MIN_MOVE_DISTANCE = 120; // px
+
+      function getDistance(x1, y1, x2, y2) {
+        return Math.hypot(x2 - x1, y2 - y1);
+      }
+
+      function moveNoButton(event) {
+        const rect = buttons.getBoundingClientRect();
+
+        const cursorX = event.clientX - rect.left;
+        const cursorY = event.clientY - rect.top;
+
+        const maxX = buttons.clientWidth - noBtn.offsetWidth;
+        const maxY = buttons.clientHeight - noBtn.offsetHeight;
+
+        let x, y, distance;
+
+        do {
+          x = Math.random() * maxX;
+          y = Math.random() * maxY;
+          distance = getDistance(cursorX, cursorY, x, y);
+        } while (distance < MIN_MOVE_DISTANCE);
+
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+        noBtn.innerText = noTexts[Math.floor(Math.random() * noTexts.length)];
+      }
+
+      // Desktop
+      noBtn.addEventListener("mouseenter", moveNoButton);
+
+      // Mobile
+      noBtn.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        moveNoButton(e.touches[0]);
+      });
+
+      // Safety: NO can never be clicked
+      noBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+      });
+
+      yesBtn.addEventListener("click", () => {
+        card.innerHTML = `
+        <h1 class="final">I knew it 😍❤️</h1>
+
+        <img
+          src="assets/love.webp"
+          alt="Happy Love"
+          class="top-image"
+        />
+
+        <h2>YAY!💖🥹</h2>
+      `;
+      });
+    </script>
+  </body>
+</html>
